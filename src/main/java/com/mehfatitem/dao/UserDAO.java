@@ -20,14 +20,14 @@ public interface UserDAO {
 
     public int updatePassword(String email, String password);
 
-	public String getContactAsEmail(String email);
+    public String getContactAsEmail(String email);
 	
-	public List<String> getUserAsUserName(String userName);
+    public List<String> getUserAsUserName(String userName);
 
-	public int isExistUser(String userName);
+    public int isExistUser(String userName);
 
-	public int update(User user);
+    public int update(User user);
 
-	public String getColumnFromUserTable(String condition, String column, String columnType);
+    public String getColumnFromUserTable(String condition, String column, String columnType);
 	
 }

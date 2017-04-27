@@ -136,7 +136,7 @@ public class JdbcUserDAO implements UserDAO {
 	}
 	
     @Override
-	public int isExistEmail(String email){
+    public int isExistEmail(String email){
 		String sql = "Select email from user_tbl where email = '" + email + "'";
 		int rows = 0;
 		Connection conn = null;
@@ -154,7 +154,7 @@ public class JdbcUserDAO implements UserDAO {
 	}
     
     @Override
-   	public int isExistUser(String userName){
+    public int isExistUser(String userName){
    		String sql = "Select email from user_tbl where username = '" + userName + "'";
    		int rows = 0;
    		Connection conn = null;
@@ -172,7 +172,7 @@ public class JdbcUserDAO implements UserDAO {
    	}
 
     @Override
-	public int getUserIdAsEmail(String email) {
+    public int getUserIdAsEmail(String email) {
 		String sql = "Select user_id from user_tbl where email = '" + email + "'";
 		System.out.println(sql);
 		Connection conn = null;
@@ -202,7 +202,7 @@ public class JdbcUserDAO implements UserDAO {
 	}
     
     @Override
-	public String getContactAsEmail(String email) {
+    public String getContactAsEmail(String email) {
 		String sql = "Select contact from user_tbl where email = '" + email + "'";
 		System.out.println(sql);
 		Connection conn = null;

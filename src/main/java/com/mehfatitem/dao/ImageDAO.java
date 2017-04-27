@@ -24,6 +24,6 @@ public interface ImageDAO {
 
     public ArrayList<String> getImageNameAsId(String imgIds);
 
-	public String ListImageAsForHomePage(int userId);
+    public String ListImageAsForHomePage(int userId);
 
 }

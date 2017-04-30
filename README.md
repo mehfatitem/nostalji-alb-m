@@ -1,5 +1,5 @@
 # Nostalji albüm 
-is a web applciation which contains image upload specification. 
+is a web application which contains image upload specification. 
 
 Every user has an account and upload their images to account and create album.
 

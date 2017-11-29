@@ -9,10 +9,13 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.mehfatitem.dao.UserDAO;
+import com.mehfatitem.imageUploadList.model.Specification;
 import com.mehfatitem.model.User;
 public class JdbcUserDAO implements UserDAO {
 
 	private DataSource dataSource;
+	
+	private Specification sp = new Specification();
 	
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -21,7 +24,7 @@ public class JdbcUserDAO implements UserDAO {
 	@Override
 	public int update(User user) {
 		int result = 0;
-		String sql = "UPDATE user_tbl SET contact ='"+user.getContact()+"', email='"+user.getEmail()+"' , password = '"+user.getPassword()+"' , save_date = "+user.getSaveDate()+" WHERE user_id="+user.getUserId();
+		String sql = "UPDATE user_tbl SET contact ='"+sp.prepareSqlString(user.getContact())+"', email='"+user.getEmail()+"' , password = '"+user.getPassword()+"' , save_date = "+user.getSaveDate()+" WHERE user_id="+user.getUserId();
 		System.out.println(sql);
 		Connection conn = null;
 		try{
@@ -46,7 +49,7 @@ public class JdbcUserDAO implements UserDAO {
 	@Override
 	public int insert(User user) {
 		int result = 0;
-		String sql = "Insert into user_tbl " + "(contact , username ,  email , password ,  save_date) values('"+user.getContact()+"','"+user.getUserName()+"','"+user.getEmail()+"','"+user.getPassword()+"',"+user.getSaveDate()+")";
+		String sql = "Insert into user_tbl " + "(contact , username ,  email , password ,  save_date) values('"+sp.prepareSqlString(user.getContact())+"','"+user.getUserName()+"','"+user.getEmail()+"','"+user.getPassword()+"',"+user.getSaveDate()+")";
 		System.out.println(sql);
 		Connection conn = null;
 		try{
@@ -71,7 +74,7 @@ public class JdbcUserDAO implements UserDAO {
 	@Override
 	public int isExist(String val , String columnName) {
 		int rows = 0;
-		String sql = "Select * from user_tbl where "+columnName+" = '" + val + "'";
+		String sql = "Select * from user_tbl where "+columnName+" = '" + sp.prepareSqlString(val) + "'";
 		System.out.println(sql);
 		Connection conn = null;
 		try{
@@ -136,7 +139,7 @@ public class JdbcUserDAO implements UserDAO {
 	}
 	
     @Override
-    public int isExistEmail(String email){
+	public int isExistEmail(String email){
 		String sql = "Select email from user_tbl where email = '" + email + "'";
 		int rows = 0;
 		Connection conn = null;
@@ -154,7 +157,7 @@ public class JdbcUserDAO implements UserDAO {
 	}
     
     @Override
-    public int isExistUser(String userName){
+   	public int isExistUser(String userName){
    		String sql = "Select email from user_tbl where username = '" + userName + "'";
    		int rows = 0;
    		Connection conn = null;
@@ -172,7 +175,7 @@ public class JdbcUserDAO implements UserDAO {
    	}
 
     @Override
-    public int getUserIdAsEmail(String email) {
+	public int getUserIdAsEmail(String email) {
 		String sql = "Select user_id from user_tbl where email = '" + email + "'";
 		System.out.println(sql);
 		Connection conn = null;
@@ -202,7 +205,7 @@ public class JdbcUserDAO implements UserDAO {
 	}
     
     @Override
-    public String getContactAsEmail(String email) {
+	public String getContactAsEmail(String email) {
 		String sql = "Select contact from user_tbl where email = '" + email + "'";
 		System.out.println(sql);
 		Connection conn = null;

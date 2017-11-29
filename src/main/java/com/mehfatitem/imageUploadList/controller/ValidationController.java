@@ -19,7 +19,7 @@ public class ValidationController {
 	private Matcher matcher;
 	
 	 
-	private static final String USERNAME_PATTERN = "^[a-z0-9_-]{5,30}$";
+	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{5,30}$";
 	
 	private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,30})";
 	

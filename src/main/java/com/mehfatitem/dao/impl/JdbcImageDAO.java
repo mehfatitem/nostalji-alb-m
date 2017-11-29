@@ -10,11 +10,14 @@ import java.util.Date;
 import javax.sql.DataSource;
 
 import com.mehfatitem.dao.ImageDAO;
+import com.mehfatitem.imageUploadList.model.Specification;
 import com.mehfatitem.model.Image;
 
 public class JdbcImageDAO implements ImageDAO {
 
     private DataSource dataSource;
+    
+    private Specification sp = new Specification();
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -23,7 +26,8 @@ public class JdbcImageDAO implements ImageDAO {
     @Override
     public int insert(Image img) {
         int result = 0;
-        String sql = "Insert into img_tbl " + "(img_desc , img_name ,  img_length , save_date , user_id) values('" + img.getImgDesc() + "','" + img.getImgName() + "'," + img.getImgLength() + "," + img.getSaveDate() + " , " + img.getUserId() + ")";
+        String sql = "Insert into img_tbl " + "(img_desc , img_name ,  img_length , save_date , user_id) values('" + sp.prepareSqlString(img.getImgDesc()) + "','" + sp.prepareSqlString(img.getImgName()) + "'," + img.getImgLength() + "," + img.getSaveDate() + " , " + img.getUserId() + ")";
+        System.out.println(sql);
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
@@ -51,9 +55,9 @@ public class JdbcImageDAO implements ImageDAO {
         String sql = "Select * from img_tbl where user_id = " + userId + " order by save_date desc";
         System.out.println(sql);
         String path = "/imageUploadList/resources/upload/";
-        String opTemp = "<div id='operations' align='center'><h4 style='margin-top: 35px;'>Ýþlemler</h4><a href='javascript:void(0);' id='deleteOperation'><i class='fa fa-trash fa-lg' aria-hidden='true '></i>&nbsp;Çoklu Sil</a></div>";
+        String opTemp = "<div id='operations' align='center'><h4 style='margin-top: 35px;'>Ä°ÅŸlemler</h4><a href='javascript:void(0);' id='deleteOperation'><i class='fa fa-trash fa-lg' aria-hidden='true '></i>&nbsp;Ã‡oklu Sil</a></div>";
         String template = "<div style='overflow-x:auto;'>";
-        template += "<table id='imageTable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th><input name='select_all' value='1' type='checkbox'/></th><th>Resim</th><th>Resim Açýklamasý</th><th>Resim Boyutu (KB)</th><th>Yüklenme Tarihi</th><th>Ýþlemler</th></tr></thead><tbody>";
+        template += "<table id='imageTable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th><input name='select_all' value='1' type='checkbox'/></th><th>Resim</th><th>Resim AÃ§Ä±klamasÄ±</th><th>Resim Boyutu (KB)</th><th>YÃ¼klenme Tarihi</th><th>Ä°ÅŸlemler</th></tr></thead><tbody>";
         Connection conn = null;
         ResultSet rs = null;
         try {
@@ -72,7 +76,7 @@ public class JdbcImageDAO implements ImageDAO {
             }
             template += "</tbody></table></div>";
             if (counter == 0) {
-                template = "<div class='alert alert-warning' align='center'><strong>Uyarý!</strong> Resim bulunamadý !</div>";
+                template = "<div class='alert alert-warning' align='center'><strong>UyarÄ±!</strong> Resim bulunamadÄ± !</div>";
                 opTemp = "";
             }
             rs.close();
@@ -180,7 +184,7 @@ public class JdbcImageDAO implements ImageDAO {
 
     @Override
     public void deleteImage(String imgName, int imgId) {
-        String sql = "Delete from img_tbl where img_name = '" + imgName + "' or img_id = " + imgId;
+        String sql = "Delete from img_tbl where img_name = '" + sp.prepareSqlString(imgName) + "' or img_id = " + imgId;
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
@@ -204,7 +208,7 @@ public class JdbcImageDAO implements ImageDAO {
         String ltrim = imgDesc.replaceAll("^\\s+", "");
         String rtrim = ltrim.replaceAll("\\s+$", "");
         int result = 0;
-        String sql = "Update img_tbl set img_desc = '" + rtrim + "' ,  save_date = " + saveDate + " where img_id = " + imgId;
+        String sql = "Update img_tbl set img_desc = '" + sp.prepareSqlString(rtrim) + "' ,  save_date = " + saveDate + " where img_id = " + imgId;
         System.out.println(sql);
         Connection conn = null;
         try {
@@ -228,7 +232,7 @@ public class JdbcImageDAO implements ImageDAO {
     @Override
     public int isExist(String name, int userId) {
         int rows = 0;
-        String sql = "Select * from img_tbl where img_desc = '" + name + "' and user_id = " + userId;
+        String sql = "Select * from img_tbl where img_desc = '" + sp.prepareSqlString(name) + "' and user_id = " + userId;
         Connection conn = null;
         try {
             conn = dataSource.getConnection();

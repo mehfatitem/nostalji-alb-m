@@ -133,4 +133,8 @@ public class Specification {
     	}
     	return template;
     }
+    
+    public String prepareSqlString(String val) {
+		return val.replaceAll("([\"'])", "\\\\$1");
+	}
 }
